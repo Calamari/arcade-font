@@ -1,3 +1,10 @@
+/**
+ * arcade-font
+ * A javascript canvas based 8 bit version of old school monospace fonts
+ * @author    g.tavonius@gmail.com
+ * @github    https://github.com/Calamari/arcade-font
+ * @licence   Just use it!
+ */
 ;(function(win, doc, undef) {
   "use strict";
   var ArcadeFont = {
