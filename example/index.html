@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Arcade-font</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="../libs/object.extend.js"></script>
+  <script src="../arcade_text.js"></script>
+  <script>
+    (function() {
+      var canvas = document.getElementById('canvas'),
+          ctx    = canvas.getContext('2d'),
+          str    = "abcdefghijklmnopqrstuvwxyz.,:;$'\"",
+          text3  = new ArcadeText(str, { y: 110, pixelSize: 3 }),
+          text2  = new ArcadeText(str, { y: 70, color: '255, 255, 127', pixelSize: 2 }),
+          text1  = new ArcadeText(str, { y: 40, pixelSize: 1 });
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      text1.draw(ctx);
+      text2.draw(ctx);
+      text3.draw(ctx);
+
+      // some TODOs:
+      // - automatic line break, if canvas (or given width) is filled
+      // - smaller letters
+    }());
+  </script>
+</body>
+</html>
