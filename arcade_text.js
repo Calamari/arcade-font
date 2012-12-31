@@ -166,11 +166,11 @@
     },
 */
 
-    // space between letters
-    // That is effectivle no 8 bit no more, because 7 + 2 are 9 ;-)
-    gutter: 2,
+    // additional space between letters
+    // OK, that breaks the real 8 bit thing, but hey ;-)
+    gutter: 0,
 
-    version: '0.3.0',
+    version: '0.3.1',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -184,7 +184,7 @@
             letterCode.push('');
           }
           for (j = 0, l = letterCode.length; j<l; ++j) {
-            line = EightBit.decodeNumber(letterCode[j], 7);
+            line = EightBit.decodeNumber(letterCode[j]);
             if (!blueprint[j]) {
               blueprint[j] = '';
             }
@@ -209,12 +209,12 @@
       return codes.join(',');
     },
 
-    decode: function(code, fontWidth) {
+    decode: function(code) {
       var result = [],
           lines = code.split(','),
           i, l;
       for (i = 0, l = lines.length; i<l; ++i) {
-        result.push(this.decodeNumber(lines[i], fontWidth));
+        result.push(this.decodeNumber(lines[i]));
       }
       return result.join('\n');
     },
@@ -227,10 +227,10 @@
       return x;
     },
 
-    decodeNumber: function(nr, fontWidth) {
+    decodeNumber: function(nr) {
       var line = '',
           i, p;
-      for (i = fontWidth; i--;) {
+      for (i = 8; i--;) {
         p = Math.pow(2, i);
         if (p <= nr) {
           nr -= p;
@@ -256,7 +256,7 @@
     }, options || {});
 
     // calculate canvas Size
-    options.canvas.width = 6 * text.length * (options.pixelSize + options.gutter);
+    options.canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
     options.canvas.height = 8 * options.pixelSize;
 
     // draws the text onto own canvas
