@@ -170,7 +170,7 @@
     // OK, that breaks the real 8 bit thing, but hey ;-)
     gutter: 0,
 
-    version: '0.3.1',
+    version: '0.4.0',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -249,7 +249,7 @@
     options = Object.extend({
       gutter: ArcadeFont.gutter,
       canvas: doc.createElement('canvas'),
-      color: '255,255,255',
+      color: '#fff',
       pixelSize: 2,
       x: 0,
       y: 0
@@ -266,7 +266,7 @@
           rows = blueprint.split('\n'),
           row, pixel;
       ctx.clearRect(0, 0, options.canvas.width, options.canvas.height);
-      ctx.fillStyle = 'rgba(' + options.color + ', ' + 1 + ')';
+      ctx.fillStyle = options.color;
       for (var y=0,yl=rows.length; y<=yl; ++y) {
         row = rows[y] || '';
         for (var x=0,xl=row.length; x<=xl; ++x) {
