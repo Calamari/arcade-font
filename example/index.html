@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Arcade-font</title>
+  <meta charset="UTF-8">
   <style>
     html, body {
       margin: 0;
@@ -22,8 +23,8 @@
     (function() {
       var canvas = document.getElementById('canvas'),
           ctx    = canvas.getContext('2d'),
-          str    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.:!-&()$\\'[]*",
-          str2   = "abcdefghijklmnopqrstuvwxyz,;?+={}%/\"<>#",
+          str    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.:!-&()$\\'_[]*°",
+          str2   = "abcdefghijklmnopqrstuvwxyz,;?+={}%/\"^<>#€",
           lstr   = "\"Lorem ipsum dolor sit amet, consectetur adipisicing elit.\"",
           text3  = new ArcadeText(str, { y: 140, pixelSize: 3 }),
           text32 = new ArcadeText(str2, { y: 170, pixelSize: 3 }),
