@@ -22,16 +22,23 @@
     (function() {
       var canvas = document.getElementById('canvas'),
           ctx    = canvas.getContext('2d'),
-          str    = "abcdefghijklmnopqrstuvwxyz.,:;$'\"",
-          text3  = new ArcadeText(str, { y: 110, pixelSize: 3 }),
-          text2  = new ArcadeText(str, { y: 70, color: '255, 255, 127', pixelSize: 2 }),
-          text1  = new ArcadeText(str, { y: 40, pixelSize: 1 });
+          str    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.:()$'",
+          str2   = "abcdefghijklmnopqrstuvwxyz,;{}\"",
+          text3  = new ArcadeText(str, { y: 140, pixelSize: 3 }),
+          text32 = new ArcadeText(str2, { y: 170, pixelSize: 3 }),
+          text2  = new ArcadeText(str, { y: 80, color: '255, 255, 127', pixelSize: 2 }),
+          text22 = new ArcadeText(str2, { y: 100, color: '255, 255, 127', pixelSize: 2 }),
+          text1  = new ArcadeText(str, { y: 40, pixelSize: 1 }),
+          text12 = new ArcadeText(str2, { y: 50, pixelSize: 1 });
 
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       text1.draw(ctx);
       text2.draw(ctx);
       text3.draw(ctx);
+      text12.draw(ctx);
+      text22.draw(ctx);
+      text32.draw(ctx);
 
       // some TODOs:
       // - automatic line break, if canvas (or given width) is filled
