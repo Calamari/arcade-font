@@ -189,7 +189,7 @@
     // additional space between lines
     lineSpacing: 0,
 
-    version: '0.6.0',
+    version: '0.6.1',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -283,16 +283,23 @@
         newLine   = '',
         breakAt;
 
-    while (lastBreak < text.length) {
-      newLine = text.substr(lastBreak, lineWidth);
-      breakAt = newLine.lastIndexOf(' ');
-      if (breakAt > 0) {
-        blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
-      } else {
-        blueLines.push(ArcadeFont.blueprint(newLine));
-        break;
+    if (lineWidth) {
+      while (lastBreak < text.length) {
+        newLine = text.substr(lastBreak, lineWidth);
+        breakAt = newLine.lastIndexOf(' ');
+        if (breakAt > 0) {
+          blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
+        } else {
+          blueLines.push(ArcadeFont.blueprint(newLine));
+          if (breakAt === -1) {
+            breakAt += newLine.length;
+          }
+        }
+        // +1 for removing space
+        lastBreak += breakAt+1;
       }
-      lastBreak += breakAt;
+    } else {
+      blueLines.push(ArcadeFont.blueprint(text));
     }
     numLines = blueLines.length;
 
