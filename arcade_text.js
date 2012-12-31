@@ -106,7 +106,7 @@
       '[': '30,6,6,6,6,6,30',
       ']': '60,48,48,48,48,48,60'
     },
-
+//1,2,4,8,16,32,64
 /* Here are some characters with a font width of only 6 in the lower case versions:
     alphabet6: {
       'A': '28,54,99,99,127,99,99',
@@ -184,10 +184,12 @@
 */
 
     // additional space between letters
-    // OK, that breaks the real 8 bit thing, but hey ;-)
     gutter: 0,
 
-    version: '0.5.0',
+    // additional space between lines
+    lineSpacing: 0,
+
+    version: '0.6.0',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -261,38 +263,64 @@
   };
 
   var ArcadeText = function(text, options) {
-    var blueprint = ArcadeFont.blueprint(text.toString()),
-        drawn     = false;
     options = Object.extend({
       gutter: ArcadeFont.gutter,
+      lineSpacing: ArcadeFont.lineSpacing,
       canvas: doc.createElement('canvas'),
       color: '#fff',
       pixelSize: 2,
       x: 0,
       y: 0
     }, options || {});
+    text = text.toString();
+
+    var lineWidth = options.lineWidth,
+        blueLines = [],
+        canvas    = options.canvas,
+        drawn     = false,
+        numLines  = 1,
+        lastBreak = 0,
+        newLine   = '',
+        breakAt;
+
+    while (lastBreak < text.length) {
+      newLine = text.substr(lastBreak, lineWidth);
+      breakAt = newLine.lastIndexOf(' ');
+      if (breakAt > 0) {
+        blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
+      } else {
+        blueLines.push(ArcadeFont.blueprint(newLine));
+        break;
+      }
+      lastBreak += breakAt;
+    }
+    numLines = blueLines.length;
 
     // calculate canvas Size
-    options.canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
-    options.canvas.height = 8 * options.pixelSize;
+    canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
+    canvas.height = (8 + options.lineSpacing) * options.pixelSize * numLines;
 
     // draws the text onto own canvas
     function draw() {
       if (drawn) { return; }
-      var ctx = options.canvas.getContext('2d'),
-          rows = blueprint.split('\n'),
-          row, pixel;
-      ctx.clearRect(0, 0, options.canvas.width, options.canvas.height);
+      var ctx        = canvas.getContext('2d'),
+          lineHeight = options.lineSpacing + 8,
+          rows, row, pixel;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = options.color;
-      for (var y=0,yl=rows.length; y<=yl; ++y) {
-        row = rows[y] || '';
-        for (var x=0,xl=row.length; x<=xl; ++x) {
-          pixel = row[x];
-          if (pixel === '1') {
-            ctx.fillRect(Math.round(options.pixelSize * x), Math.round(options.pixelSize * y), options.pixelSize, options.pixelSize);
+      blueLines.forEach(function(blueLine, lineNum) {
+        rows = blueLine.split('\n');
+        for (var y=0,yl=rows.length; y<=yl; ++y) {
+          row = rows[y] || '';
+          for (var x=0,xl=row.length; x<=xl; ++x) {
+            pixel = row[x];
+            if (pixel === '1') {
+              ctx.fillRect(Math.round(options.pixelSize * x), Math.round(options.pixelSize * (y + lineNum * lineHeight)), options.pixelSize, options.pixelSize);
+            }
           }
         }
-      }
+      });
       drawn = true;
     }
 
@@ -309,12 +337,12 @@
       draw: function(context) {
         draw();
         if (context !== undef) {
-          context.drawImage(options.canvas, options.x, options.y);
+          context.drawImage(canvas, options.x, options.y);
         }
-        return options.canvas;
+        return canvas;
       },
-      width: options.canvas.width,
-      height: options.canvas.height
+      width: canvas.width,
+      height: canvas.height
     };
   };
 
