@@ -170,7 +170,7 @@
     // That is effectivle no 8 bit no more, because 7 + 2 are 9 ;-)
     gutter: 2,
 
-    version: '0.2.0',
+    version: '0.3.0',
 
     blueprint: function(text) {
       var blueprint = [],
