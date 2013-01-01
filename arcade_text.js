@@ -189,7 +189,7 @@
     // additional space between lines
     lineSpacing: 0,
 
-    version: '0.6.2',
+    version: '0.6.3',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -275,40 +275,43 @@
     text = text.toString();
 
     var lineWidth = options.lineWidth,
-        blueLines = [],
         canvas    = options.canvas,
         drawn     = false,
         numLines  = 1,
         lastBreak = 0,
         newLine   = '',
-        breakAt;
+        blueLines, breakAt;
 
-    if (lineWidth) {
-      while (lastBreak < text.length) {
-        newLine = text.substr(lastBreak, lineWidth);
-        breakAt = newLine.lastIndexOf(' ');
-        if (text[lastBreak + lineWidth ] === ' ' || newLine.length < lineWidth) {
-          blueLines.push(ArcadeFont.blueprint(newLine));
-          breakAt = lineWidth;
-          } else if (breakAt > 0) {
-          blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
-        } else {
-          blueLines.push(ArcadeFont.blueprint(newLine));
-          if (breakAt === -1) {
-            breakAt += newLine.length;
+    function setText() {
+      blueLines = [];
+      if (lineWidth) {
+        while (lastBreak < text.length) {
+          newLine = text.substr(lastBreak, lineWidth);
+          breakAt = newLine.lastIndexOf(' ');
+          if (text[lastBreak + lineWidth ] === ' ' || newLine.length < lineWidth) {
+            blueLines.push(ArcadeFont.blueprint(newLine));
+            breakAt = lineWidth;
+            } else if (breakAt > 0) {
+            blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
+          } else {
+            blueLines.push(ArcadeFont.blueprint(newLine));
+            if (breakAt === -1) {
+              breakAt += newLine.length;
+            }
           }
+          // +1 for removing space
+          lastBreak += breakAt+1;
         }
-        // +1 for removing space
-        lastBreak += breakAt+1;
+      } else {
+        blueLines.push(ArcadeFont.blueprint(text));
       }
-    } else {
-      blueLines.push(ArcadeFont.blueprint(text));
-    }
-    numLines = blueLines.length;
+      numLines = blueLines.length;
 
-    // calculate canvas Size
-    canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
-    canvas.height = (8 + options.lineSpacing) * options.pixelSize * numLines;
+      // calculate canvas Size
+      canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
+      canvas.height = (8 + options.lineSpacing) * options.pixelSize * numLines;
+    }
+    setText();
 
     // draws the text onto own canvas
     function draw() {
@@ -341,7 +344,7 @@
       },
       text: function(newText) {
         text = newText;
-        blueprint = ArcadeFont.blueprint(text.toString());
+        setText();
         drawn = false;
       },
       draw: function(context) {
