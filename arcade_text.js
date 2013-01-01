@@ -189,7 +189,7 @@
     // additional space between lines
     lineSpacing: 0,
 
-    version: '0.6.1',
+    version: '0.6.2',
 
     blueprint: function(text) {
       var blueprint = [],
@@ -287,7 +287,10 @@
       while (lastBreak < text.length) {
         newLine = text.substr(lastBreak, lineWidth);
         breakAt = newLine.lastIndexOf(' ');
-        if (breakAt > 0) {
+        if (text[lastBreak + lineWidth ] === ' ' || newLine.length < lineWidth) {
+          blueLines.push(ArcadeFont.blueprint(newLine));
+          breakAt = lineWidth;
+          } else if (breakAt > 0) {
           blueLines.push(ArcadeFont.blueprint(newLine.substr(0, breakAt)));
         } else {
           blueLines.push(ArcadeFont.blueprint(newLine));
