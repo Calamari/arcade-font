@@ -189,7 +189,7 @@
     // additional space between lines
     lineSpacing: 0,
 
-    version: '0.6.3',
+    version: '0.7.0',
 
     blueprint: function(text) {
       var blueprint = [],
