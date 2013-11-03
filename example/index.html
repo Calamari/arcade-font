@@ -26,13 +26,15 @@
           str    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.:!-&()$\\'_[]*°",
           str2   = "abcdefghijklmnopqrstuvwxyz,;?+={}%/\"^<>#€",
           lstr   = "\"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+          mstr   = 'This is a multiline text\nThis is the second row\n\nAnd this the fourth.',
           text3  = new ArcadeText(str, { y: 140, pixelSize: 3 }),
           text32 = new ArcadeText(str2, { y: 170, pixelSize: 3 }),
           text2  = new ArcadeText(str, { y: 80, color: 'rgb(255, 255, 127)', pixelSize: 2 }),
           text22 = new ArcadeText(str2, { y: 100, color: 'rgb(255, 255, 127)', pixelSize: 2 }),
           text1  = new ArcadeText(str, { y: 40, pixelSize: 1 }),
           text12 = new ArcadeText(str2, { y: 50, pixelSize: 1 }),
-          lorem = new ArcadeText(lstr, { y: 230, pixelSize: 2, lineWidth: 80, lineSpacing: 1 });
+          lorem  = new ArcadeText(lstr, { y: 230, pixelSize: 2, lineWidth: 80, lineSpacing: 1 }),
+          newLineTest = new ArcadeText(mstr, { y: 380, pixelSize: 2, lineSpacing: 1 });
 
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -43,6 +45,8 @@
       text22.draw(ctx);
       text32.draw(ctx);
       lorem.draw(ctx);
+
+      newLineTest.draw(ctx);
     }());
   </script>
 </body>

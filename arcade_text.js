@@ -272,7 +272,6 @@
       x: 0,
       y: 0
     }, options || {});
-    text = text.toString();
 
     var lineWidth = options.lineWidth,
         canvas    = options.canvas,
@@ -282,13 +281,25 @@
         newLine   = '',
         blueLines, breakAt;
 
-    function setText() {
+    setText(text.toString());
+
+    function setText(text) {
+      var lines = text.split('\n'),
+          i,l;
       blueLines = [];
+      canvas.width = 0;
+      canvas.height = 0;
+      for (i=0,l=lines.length; i<l; ++i) {
+        addLine(lines[i]);
+
+      }
+    }
+    function addLine(line) {
       if (lineWidth) {
-        while (lastBreak < text.length) {
-          newLine = text.substr(lastBreak, lineWidth);
+        while (lastBreak < line.length) {
+          newLine = line.substr(lastBreak, lineWidth);
           breakAt = newLine.lastIndexOf(' ');
-          if (text[lastBreak + lineWidth ] === ' ' || newLine.length < lineWidth) {
+          if (line[lastBreak + lineWidth ] === ' ' || newLine.length < lineWidth) {
             blueLines.push(ArcadeFont.blueprint(newLine));
             breakAt = lineWidth;
             } else if (breakAt > 0) {
@@ -303,15 +314,14 @@
           lastBreak += breakAt+1;
         }
       } else {
-        blueLines.push(ArcadeFont.blueprint(text));
+        blueLines.push(ArcadeFont.blueprint(line));
       }
       numLines = blueLines.length;
 
       // calculate canvas Size
-      canvas.width = 8 * (options.pixelSize + options.gutter) * text.length;
-      canvas.height = (8 + options.lineSpacing) * options.pixelSize * numLines;
+      canvas.width = Math.max(canvas.width, 8 * (options.pixelSize + options.gutter) * line.length);
+      canvas.height += (8 + options.lineSpacing) * options.pixelSize * numLines;
     }
-    setText();
 
     // draws the text onto own canvas
     function draw() {
@@ -343,8 +353,7 @@
         drawn = false;
       },
       text: function(newText) {
-        text = newText;
-        setText();
+        setText(newText);
         drawn = false;
       },
       draw: function(context) {
